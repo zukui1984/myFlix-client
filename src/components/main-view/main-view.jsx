@@ -1,4 +1,3 @@
-// React and Axios
 import React from 'react';
 import axios from 'axios';
 
@@ -29,11 +28,8 @@ export class MainView extends React.Component {
         });
     }
 
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    });
-  }
+  onMovieClick(movie) {this.setState({selectedMovie: movie});  }
+  goBack() {this.setState({selectedMovie: null});  }
 
 
   render() {
@@ -44,8 +40,7 @@ export class MainView extends React.Component {
 
     return (
      <div className="main-view">
-      {selectedMovie
-         ? <MovieView movie={selectedMovie}/>
+      {selectedMovie ? <MovieView movie={selectedMovie} goBack={() => this.goBack()} />
          : movies.map(movie => (
            <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
          ))
