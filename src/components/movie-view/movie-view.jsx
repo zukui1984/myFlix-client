@@ -35,7 +35,6 @@ export class MovieView extends React.Component {
       <span className="label">Button</span>
         </button>
        </div>
-
     );
   }
 }
