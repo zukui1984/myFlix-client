@@ -1,3 +1,4 @@
+// REACT
 import React from 'react';
 
 export class MovieCard extends React.Component {
@@ -9,5 +10,3 @@ export class MovieCard extends React.Component {
     );
   }
 }
-
-  

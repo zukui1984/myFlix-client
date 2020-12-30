@@ -38,4 +38,3 @@ export class MovieView extends React.Component {
     );
   }
 }
-
