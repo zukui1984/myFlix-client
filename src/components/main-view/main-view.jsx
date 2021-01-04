@@ -28,7 +28,6 @@ export class MainView extends React.Component {
   onMovieClick(movie) {this.setState({selectedMovie: movie }); }
   goBack() {this.setState({selectedMovie: null}); }
 
-
   render() {
     const { movies, selectedMovie } = this.state;
 
