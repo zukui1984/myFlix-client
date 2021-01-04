@@ -19,20 +19,14 @@ export class MainView extends React.Component {
       axios.get('https://movie-api-1684.herokuapp.com/movies')
         .then((response) => {
           // Assign the result to the state
-          this.setState({
-            movies: response.data,
-          });
+          this.setState({movies: response.data});
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function (error) {console.log(error);
         });
     }
 
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    });
-  }
+  onMovieClick(movie) {this.setState({selectedMovie: movie }); }
+  goBack() {this.setState({selectedMovie: null}); }
 
   render() {
     const { movies, selectedMovie } = this.state;
@@ -41,15 +35,14 @@ export class MainView extends React.Component {
     if (!movies) return <div className="main-view"/>;
 
     return (
-     <div className="main-view">
-      {selectedMovie
-         ? <MovieView movie={selectedMovie}/>
-         : movies.map(movie => (
-           <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
-         ))
-      }
-     </div>
-    );
+      <div className="main-view">
+       {selectedMovie
+          ? <MovieView movie={selectedMovie} goBack={() => this.goBack()}/>
+          : movies.map(movie => (
+            <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
+          ))
+       }
+      </div>
+     );
+   }
   }
-}
-
