@@ -1,8 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 
+import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { RegistrationView } from '../registration-view/registration-view';
+
+import './main-view.scss';
 
 export class MainView extends React.Component {
 
@@ -11,7 +15,9 @@ export class MainView extends React.Component {
 
     this.state = {
       movies: null,
-      selectedMovie: null
+      selectedMovie: null,
+      user: null,
+      register: null
     };
   }
 
@@ -27,15 +33,25 @@ export class MainView extends React.Component {
 
   onMovieClick(movie) {this.setState({selectedMovie: movie }); }
   goBack() {this.setState({selectedMovie: null}); }
+  onLoggedIn(user) {this.setState({user}); }
+  startRegister() {this.setState({register: true}); }
+  endRegister() {this.setState({register: null}); }
 
   render() {
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user, register } = this.state;
+
+    if (!register) {
+      return <RegistrationView endRegister={() => this.endRegister()}/>
+    }
+    
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)}/>;
 
     // Before the movies have been loaded
     if (!movies) return <div className="main-view"/>;
 
     return (
       <div className="main-view">
+
        {selectedMovie
           ? <MovieView movie={selectedMovie} goBack={() => this.goBack()}/>
           : movies.map(movie => (
