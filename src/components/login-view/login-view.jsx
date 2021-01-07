@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import "./login-view.scss";
 
 export function LoginView(props) {
@@ -15,13 +15,15 @@ export function LoginView(props) {
   };
 
   const startRegister = (e) => {
+    console.log(username, password);
     props.startRegister();
   };
 
   return (
     <Form className="login-form">
+      <Form.Label>Username</Form.Label>
+
       <Form.Group controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
         <Form.Control
           type="text"
           placeholder="Enter Username"
@@ -29,7 +31,6 @@ export function LoginView(props) {
           onChange={(e) => setUsername(e.target.value)}
         />
       </Form.Group>
-
       <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
@@ -40,18 +41,29 @@ export function LoginView(props) {
         />
       </Form.Group>
 
-      <Button
-        className="login-button"
-        variant="primary"
-        type="submit"
-        onClick={handleSubmit}
-      >
-        Login
-      </Button>
+      <Form.Group controlId="formBasicCheckbox">
+        <Form.Check type="checkbox" label="Check me out" />
+      </Form.Group>
 
-      <Button variant="primary" type="submit" onClick={startRegister}>
-        Register
-      </Button>
+      <Form.Row>
+        <Button
+          className="login-button"
+          variant="primary"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Login
+        </Button>
+
+        <Button
+          className="login-button"
+          variant="primary"
+          type="submit"
+          onClick={startRegister}
+        >
+          Register
+        </Button>
+      </Form.Row>
     </Form>
   );
 }
@@ -63,5 +75,3 @@ LoginView.propTypes = {
   }),
   onLoggedIn: PropTypes.func.isRequired,
 };
-
-/* startRegister: PropTypes.func.isRequired, */

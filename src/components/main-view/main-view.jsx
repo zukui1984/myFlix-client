@@ -1,5 +1,8 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
+import { Container, Row, Col } from 'react-bootstrap';
+
 
 import { LoginView } from "../login-view/login-view";
 import { MovieCard } from "../movie-card/movie-card";
@@ -13,11 +16,15 @@ export class MainView extends React.Component {
     super();
 
     this.state = {
-      movies: null,
+      movie: null,
       selectedMovie: null,
       user: null,
       register: null,
     };
+
+
+  this.goBack = this.goBack.bind(this);
+  this.onLoggedIn = this.onLoggedIn.bind(this);
   }
 
   componentDidMount() {
@@ -42,18 +49,18 @@ export class MainView extends React.Component {
     this.setState({ user });
   }
   startRegister() {
-    this.setState({ register: true });
+    this.setState({ register : null });
   }
   endRegister() {
-    this.setState({ register: null });
+    this.setState({ register : null });
   }
 
   render() {
     const { movies, selectedMovie, user, register } = this.state;
 
-    if (!register) {
+   if (register) {
       return <RegistrationView endRegister={() => this.endRegister()} />;
-    }
+    } 
 
     if (!user)
       return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
@@ -63,8 +70,13 @@ export class MainView extends React.Component {
 
     return (
       <div className="main-view">
-        {selectedMovie ? (
+      <Container>
+      <Row className="justify-content-md-center">
+        {selectedMovie ? (          
+            <Col md={8}>
           <MovieView movie={selectedMovie} goBack={() => this.goBack()} />
+          </Col>
+        
         ) : (
           movies.map((movie) => (
             <MovieCard
@@ -74,27 +86,36 @@ export class MainView extends React.Component {
             />
           ))
         )}
+        </Row>
+      </Container>
       </div>
     );
   }
 }
 
-/* MainView.propTypes = {
-  movie: PropTypes.arrayOf({
-    _id: PropTypes.string.isRequired,
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
+   MainView.propTypes = {
+
+    movies : PropTypes.arrayOf({
+      /* PropTypes.shape({ */
+         Title: PropTypes.string.isRequired,
+         Description: PropTypes.string.isRequired, 
+
     Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired,
+        Name: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired,
     }),
     Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired,
-      Birth: PropTypes.string.isRequired,
+        Name: PropTypes.string.isRequired,
+        Bio: PropTypes.string.isRequired,
+        Birthday: PropTypes.string.isRequired,
     }),
     ImagePath: PropTypes.string.isRequired,
     Featured: PropTypes.bool.isRequired,
-  }),
-  user: PropTypes.string,
-}; */
+    }),
+
+    user: PropTypes.string,
+  }; 
+  
+ 
+
+  

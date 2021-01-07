@@ -4,11 +4,11 @@ import { Form, Button } from "react-bootstrap";
 import "./registration-view.scss";
 
 export function RegistrationView(props) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [movies, setMovies] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [movies, setMovies] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,22 +21,20 @@ export function RegistrationView(props) {
       <Form.Group controlId="formBasicUsername">
         <Form.Label>Username</Form.Label>
         <Form.Control
-          type="text"
+        type="text"
           placeholder="Enter Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+          onChange={(e) => setUsername(e.target.value)}/>
       </Form.Group>
 
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control
-          type="text"
+          type="email"
           placeholder="Enter Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </Form.Group>
+          onChange={(e) => setEmail(e.target.value)}/>
+      </Form.Group>      
 
       <Form.Group controlId="formBasicBirthday">
         <Form.Label>Birthday</Form.Label>
@@ -81,5 +79,13 @@ export function RegistrationView(props) {
 }
 
 RegistrationView.propTypes = {
-  endRegister: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+      username: PropTypes.string.isRequired,
+      password: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      birthday: PropTypes.string.isRequired,
+  }),  
+  endRegister: PropTypes.func.isRequired
 };
+
+ 
