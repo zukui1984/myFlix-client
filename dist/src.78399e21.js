@@ -47807,11 +47807,11 @@ function LoginView(props) {
     console.log(username, password);
     /* Send a request to the server for authentication */
 
-    props.onLoggedIn(username);
+    props.onLoggedIn(user);
   };
 
   var startRegister = function startRegister(e) {
-    console.log(username, password);
+    e.preventDefault();
     props.startRegister();
   };
 
@@ -47922,12 +47922,12 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
           return _onClick(movie);
         },
         className: "movie-card"
-      }, movie.Title, "/*", " ", _react.default.createElement(_Card.default, {
+      }, movie.Title, ",", _react.default.createElement(_Card.default, {
         className: "movie-card",
         style: {
           width: "16rem"
         }
-      }, " ", "*/", _react.default.createElement(_Card.default.Img, {
+      }, _react.default.createElement(_Card.default.Img, {
         className: "card-img",
         variant: "top",
         src: movie.ImagePath
@@ -48316,7 +48316,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     key: "startRegister",
     value: function startRegister() {
       this.setState({
-        register: null
+        register: true
       });
     }
   }, {
@@ -48346,6 +48346,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }
 
       if (!user) return _react.default.createElement(_loginView.LoginView, {
+        startRegister: function startRegister() {
+          return _this3.startRegister();
+        },
         onLoggedIn: function onLoggedIn(user) {
           return _this3.onLoggedIn(user);
         }
@@ -48494,7 +48497,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33723" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35414" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -9,11 +9,8 @@ export class MovieCard extends React.Component {
 
     return (
       <div onClick={() => onClick(movie)} className="movie-card">
-        {movie.Title}
-        /*{" "}
+        {movie.Title},
         <Card className="movie-card" style={{ width: "16rem" }}>
-          {" "}
-          */
           <Card.Img className="card-img" variant="top" src={movie.ImagePath} />
           <Card.Body className="card-body">
             <Card.Title className="card-title">{movie.Title}</Card.Title>
@@ -26,7 +23,7 @@ export class MovieCard extends React.Component {
               Open
             </Button>
           </Card.Body>
-        </Card>
+      </Card>
       </div>
     );
   }

@@ -7,17 +7,19 @@ export function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(username, password);
     /* Send a request to the server for authentication */
-    props.onLoggedIn(username);
+    props.onLoggedIn(user);
   };
-
+  
   const startRegister = (e) => {
-    console.log(username, password);
+    e.preventDefault();
     props.startRegister();
   };
+
 
   return (
     <Form className="login-form">
