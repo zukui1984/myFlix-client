@@ -17,6 +17,31 @@
   align-items: auto;
   align-content: center;
 }
+.genre-view {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 10px;
+}
+
+.genre-card {
+  margin: auto;
+}
+
+.genre-name {
+  font-weight: 600;
+  color: #00CED1;
+}
+
+.genre-description {
+  padding: 15px 15px 0px 15px;
+}
+.profile-view {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.profile-button {
+  margin: auto;
+  border: none;
+}
 .my-flix {
   color: steelblue;
 }

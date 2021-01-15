@@ -20,24 +20,25 @@ export class ProfileView extends React.Component {
       Password: null,
       Email: null,
       Birthday: null,
+      validated: null,
       movies: [],
       FavoriteMovies: [],
     };
   }
 
   componentDidMount() {
-    let accessToken = localStorage.getItem("token");
+    let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       this.getUser(accessToken);
     }
   }
 
-  getUser(_token) {
-    const username = localStorage.getItem("user");
+  getUser(token) {
+    const username = localStorage.getItem('user');
 
     axios
-      .get("https://movie-api-1684.herokuapp.com/users/${username}", {
-        headers: { Authorization: "Bearer ${token}" },
+      .get('https://movie-api-1684.herokuapp.com/users/${username}', {
+        headers: { Authorization: 'Bearer ${token}' },
       })
       .then((response) => {
         this.setState({
@@ -56,11 +57,10 @@ export class ProfileView extends React.Component {
   handleRemoveUser(e) {
     e.preventDefault();
 
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
-    axios
-      .delete("https://movie-api-1684.herokuapp.com/users/${username}", {
+    axios.delete("https://movie-api-1684.herokuapp.com/users/${username}", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -92,14 +92,14 @@ export class ProfileView extends React.Component {
     const username = localStorage.getItem("user");
 
     axios({
-      method: "put",
+      method: 'put',
       url: "https://movie-api-1684.herokuapp.com/users/${username}",
       headers: { Authorization: "Bearer ${token}" },
       data: {
-        Username: this.state.Username,
-        Password: this.state.Password,
-        Email: this.state.Email,
-        Birthday: this.state.Birthday,
+        Username: newUsername ? newUsername : this.state.Username,
+				Password: newPassword ? newPassword : this.state.Password,
+				Email: newEmail ? newEmail : this.state.Email,
+				Birthday: newBirthday ? newBirthday : this.state.Birthday,
       },
     })
       .then((response) => {
@@ -109,9 +109,9 @@ export class ProfileView extends React.Component {
           Password: response.data.Password,
           Email: response.data.Email,
           Birthday: response.data.Birthday,
-        }),
-          localStorage.setItem("user", this.state.Username);
-        window.open("/user/${username}", "_self");
+        });
+          localStorage.setItem('user', this.state.Username);
+        window.open('/users/${username}', '_self');
       })
       .catch((e) => {
         console.log("error");
@@ -140,19 +140,17 @@ export class ProfileView extends React.Component {
     window.open("/", "_self");
   }
 
-  removeFavorite(movie) {
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
+  removeFavorite(e) {
+    e.preventDefault();
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
-    axios
-      .delete(
-        "https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}",
-        {
+    axios.delete(
+        'https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}', {
           headers: { Authorization: "Bearer ${token}" },
-        }
-      )
+        })
       .then(() => {
-        alert("Movie successfully removed");
+        alert('Movie successfully removed');
         this.componentDidMount();
       })
       .catch(function (error) {
@@ -162,24 +160,18 @@ export class ProfileView extends React.Component {
 
   render() {
     const { movies } = this.props;
-    const { favoritesMovies, validated } = this.state;
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
+    const { validated } = this.state;
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
 
     return (
       // Opening Part
       <Container>
         <Card className="profile-view">
           <Card.Body>
-            <Card.Text className="profile-text">
-              Username: {this.state.Username}
-            </Card.Text>
-            <Card.Text className="profile-text">
-              Email: {this.state.Email}
-            </Card.Text>
-            <Card.Text className="profile-text">
-              Birthday: {this.state.Birthday}
-            </Card.Text>
+            <Card.Text className="profile-text">Username: {this.state.Username}</Card.Text>
+            <Card.Text className="profile-text">Email: {this.state.Email}</Card.Text>
+            <Card.Text className="profile-text">Birthday: {this.state.Birthday}</Card.Text>
 
             <Button
               onClick={() => this.handleRemoveUser()}
@@ -189,28 +181,31 @@ export class ProfileView extends React.Component {
               Delete account
             </Button>
 
-            <Link to={"/"}>
-              <Button className="delete-button">Back</Button>
+            <Link to={'/'}>
+              <Button className="delete-button" variant="info">Back</Button>
             </Link>
           </Card.Body>
         </Card>
+
         // Movie List and Remove
-        <Card className="favorite-Movies">
-          Favorite
+        <Card className="favorite-movies">
+          Favorite Movies
           <Card.Body>
             <Card.Img variant="top" src={movie.ImagePath} />
 
-            <Link to={"/movies/${movie._id"}>
-              <Button variant="link">Movie Information</Button>
+            <Link to={'/movies/${movie._id'}>
+              <Button variant='link' className='fav-movie'>Movie Information</Button>
             </Link>
 
-            <Link to="">
+            <Link to=''>
               <Button onClick={() => this.removeFavorite(movie._id)}>
                 Remove Movie
               </Button>
             </Link>
           </Card.Body>
         </Card>
+
+
         // Update Container + Form
         <Card.Body className="update-card">
           <Form
@@ -227,30 +222,33 @@ export class ProfileView extends React.Component {
               )
             }
           >
+
             // Username
             <Form.Group controlId="formBasicUsername">
               <Form.Label className="form-label">Username</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="New Username"
+                type='text'
+                placeholder='New Username'
                 onChange={(e) => this.setUsername(e.target.value)}
               />
-              <Form.Control.Check type="invalid">
+              <Form.Control.Check type='invalid'>
                 Please enter correct characters
               </Form.Control.Check>
             </Form.Group>
+
             // Email
             <Form.Group controlId="formBasicEmail">
               <Form.Label className="form-label">Email</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="New Email"
+                type='email'
+                placeholder='New Email'
                 onChange={(e) => this.setEmail(e.target.value)}
               />
-              <Form.Control.Check type="invalid">
+              <Form.Control.Check type='invalid'>
                 Please enter valid email address
               </Form.Control.Check>
             </Form.Group>
+
             // Password
             <Form.Group controlId="formBasicPassword">
               <Form.Label className="form-label">Password</Form.Label>
@@ -263,6 +261,7 @@ export class ProfileView extends React.Component {
                 Please enter valid password
               </Form.Control.Check>
             </Form.Group>
+            
             // Birthday
             <Form.Group controlId="formBasicBirthday">
               <Form.Label className="form-label">Birthday</Form.Label>
