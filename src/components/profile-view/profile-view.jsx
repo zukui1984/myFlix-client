@@ -10,10 +10,10 @@ export class ProfileView extends React.Component {
   constructor() {
     super();
 
-    (this.Username = null),
-      (this.Password = null),
-      (this.Email = null),
-      (this.Birthday = null);
+      this.Username = null,
+      this.Password = null,
+      this.Email = null,
+      this.Birthday = null;
 
     this.state = {
       Username: null,
@@ -33,7 +33,7 @@ export class ProfileView extends React.Component {
     }
   }
 
-  getUser(token) {
+  getUser(_token) {
     const username = localStorage.getItem('user');
 
     axios
