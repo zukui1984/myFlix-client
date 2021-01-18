@@ -50974,7 +50974,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
       var movie = this.props.movie;
       return _react.default.createElement(_reactBootstrap.Card, {
         style: {
-          width: '16rem'
+          width: "16rem"
         }
       }, _react.default.createElement(_reactBootstrap.Card.Img, {
         variant: "top",
@@ -51013,8 +51013,7 @@ MovieCard.propTypes = {
       Birthday: _propTypes.default.string.isRequired
     }),
     ImagePath: _propTypes.default.string.isRequired
-  }).isRequired,
-  onClick: _propTypes.default.func.isRequired
+  }).isRequired
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
@@ -51433,7 +51432,7 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_reactBootstrap.Card, {
         className: "director-card"
       }, _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Title, null, director.Name), _react.default.createElement(_reactBootstrap.Card.Text, null, "Born: ", director.Birthday), _react.default.createElement(_reactBootstrap.Card.Text, null, "Bio: ", director.Bio)), _react.default.createElement(_reactRouterDom.Link, {
-        to: '/'
+        to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
         variant: "link",
         className: "button-back"
@@ -51682,7 +51681,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var _this6 = this;
 
       var _this$props = this.props,
-          movie = _this$props.movie,
+          movies = _this$props.movies,
           onClick = _this$props.onClick;
       var validated = this.state.validated;
       var username = localStorage.getItem('user');
@@ -51711,9 +51710,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           className: "favorite-movies"
         }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
           variant: "top",
-          src: movie.ImagePath
+          src: movies.ImagePath
         }), _react.default.createElement(_reactRouterDom.Link, {
-          to: '/movies/${movie._id'
+          to: '/movies/${movies._id'
         }, _react.default.createElement(_reactBootstrap.Button, {
           variant: "link",
           className: "fav-movie"
@@ -51721,7 +51720,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           to: ""
         }, _react.default.createElement(_reactBootstrap.Button, {
           onClick: function onClick() {
-            return _this6.removeFavorite(movie._id);
+            return _this6.removeFavorite(movies._id);
           }
         }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
           className: "update-card"
@@ -52147,7 +52146,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4704" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14740" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
