@@ -51511,12 +51511,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(ProfileView);
 
-  function ProfileView() {
+  function ProfileView(props) {
     var _this;
 
     _classCallCheck(this, ProfileView);
 
-    _this = _super.call(this);
+    _this = _super.call(this, props);
     _this.Username = null, _this.Password = null, _this.Email = null, _this.Birthday = null;
     _this.state = {
       Username: null,
@@ -51524,7 +51524,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       Email: null,
       Birthday: null,
       validated: null,
-      movies: [],
+      movie: [],
       FavoriteMovies: []
     };
     return _this;
@@ -51669,7 +51669,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
-      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}", {
+      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/${username}/Movies/${movie}", {
         headers: {
           Authorization: "Bearer ${token}"
         }
@@ -51692,104 +51692,100 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var validated = this.state.validated;
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
-      return (// Opening Part
-        _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Card, {
-          className: "profile-view"
-        }, _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Text, {
-          className: "profile-text"
-        }, "Username: ", this.state.Username), _react.default.createElement(_reactBootstrap.Card.Text, {
-          className: "profile-text"
-        }, "Email: ", this.state.Email), _react.default.createElement(_reactBootstrap.Card.Text, {
-          className: "profile-text"
-        }, "Birthday: ", this.state.Birthday), _react.default.createElement(_reactBootstrap.Button, {
-          onClick: function onClick() {
-            return _this6.handleRemoveUser();
-          },
-          variant: "closing",
-          className: "delete-button"
-        }, "Delete account"), _react.default.createElement(_reactRouterDom.Link, {
-          to: "/"
-        }, _react.default.createElement(_reactBootstrap.Button, {
-          className: "delete-button",
-          variant: "info"
-        }, "Back")))), _react.default.createElement(_reactBootstrap.Card, {
-          className: "favorite-movies"
-        }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
-          variant: "top",
-          src: movie.ImagePath
-        }), _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/${movies._id"
-        }, _react.default.createElement(_reactBootstrap.Button, {
-          variant: "link",
-          className: "fav-movie"
-        }, "Movie Information")), _react.default.createElement(_reactRouterDom.Link, {
-          to: "/"
-        }, _react.default.createElement(_reactBootstrap.Button, {
-          onClick: function onClick() {
-            return _this6.removeFavorite(movie._id);
-          }
-        }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
-          className: "update-card"
-        }, _react.default.createElement(_reactBootstrap.Form, {
-          noValidate: true,
-          validated: validated,
-          className: "update-form",
-          onSubmit: function onSubmit(e) {
-            return _this6.handleUpdate(e, _this6.Username, _this6.Password, _this6.Email, _this6.Birthday);
-          }
-        }, _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formBasicUsername"
-        }, _react.default.createElement(_reactBootstrap.Form.Label, {
-          className: "form-label"
-        }, "Username"), _react.default.createElement(_reactBootstrap.Form.Control, {
-          type: "text",
-          placeholder: "New Username",
-          onChange: function onChange(e) {
-            return setUsername(e.target.value);
-          }
-        }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-          type: "invalid"
-        }, "Please enter correct characters")), _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formBasicEmail"
-        }, _react.default.createElement(_reactBootstrap.Form.Label, {
-          className: "form-label"
-        }, "Email"), _react.default.createElement(_reactBootstrap.Form.Control, {
-          type: "email",
-          placeholder: "New Email",
-          onChange: function onChange(e) {
-            return setEmail(e.target.value);
-          }
-        }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-          type: "invalid"
-        }, "Please enter valid email address")), _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formBasicPassword"
-        }, _react.default.createElement(_reactBootstrap.Form.Label, {
-          className: "form-label"
-        }, "Password"), _react.default.createElement(_reactBootstrap.Form.Control, {
-          type: "password",
-          placeholder: "New Password",
-          onChange: function onChange(e) {
-            return setPassword(e.target.value);
-          }
-        }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-          type: "invalid"
-        }, "Please enter valid password")), _react.default.createElement(_reactBootstrap.Form.Group, {
-          controlId: "formBasicBirthday"
-        }, _react.default.createElement(_reactBootstrap.Form.Label, {
-          className: "form-label"
-        }, "Birthday"), _react.default.createElement(_reactBootstrap.Form.Control, {
-          type: "data",
-          placeholder: "New Birthday",
-          onChange: function onChange(e) {
-            return setBirthday(e.target.value);
-          }
-        }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-          type: "invalid"
-        }, "Please enter valid birthday")), _react.default.createElement(_reactBootstrap.Button, {
-          className: "update-button",
-          type: "submit"
-        }, "Update info"))))
-      );
+      return _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Card, {
+        className: "profile-view"
+      }, _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Text, {
+        className: "profile-text"
+      }, "Username: ", this.state.Username), _react.default.createElement(_reactBootstrap.Card.Text, {
+        className: "profile-text"
+      }, "Email: ", this.state.Email), _react.default.createElement(_reactBootstrap.Card.Text, {
+        className: "profile-text"
+      }, "Birthday: ", this.state.Birthday), _react.default.createElement(_reactBootstrap.Button, {
+        onClick: function onClick() {
+          return handleRemoveUser(movie);
+        },
+        variant: "closing",
+        className: "delete-button"
+      }, "Delete account"), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        className: "delete-button",
+        variant: "info"
+      }, "Back")))), _react.default.createElement(_reactBootstrap.Card, {
+        className: "favorite-movies"
+      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
+        variant: "top",
+        src: movie.ImagePath
+      }), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/movies/${movie.id"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        variant: "link",
+        className: "fav-movie"
+      }, "Movie Information")), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.removeFavorite
+      }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
+        className: "update-card"
+      }, _react.default.createElement(_reactBootstrap.Form, {
+        noValidate: true,
+        validated: validated,
+        className: "update-form",
+        onSubmit: function onSubmit(e) {
+          return _this6.handleUpdate(e, _this6.Username, _this6.Password, _this6.Email, _this6.Birthday);
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicUsername"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-label"
+      }, "Username"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "text",
+        placeholder: "New Username",
+        onChange: function onChange(e) {
+          return setUsername(e.target.value);
+        }
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
+        type: "invalid"
+      }, "Please enter correct characters")), _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicEmail"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-label"
+      }, "Email"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "email",
+        placeholder: "New Email",
+        onChange: function onChange(e) {
+          return setEmail(e.target.value);
+        }
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
+        type: "invalid"
+      }, "Please enter valid email address")), _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicPassword"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-label"
+      }, "Password"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "password",
+        placeholder: "New Password",
+        onChange: function onChange(e) {
+          return setPassword(e.target.value);
+        }
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
+        type: "invalid"
+      }, "Please enter valid password")), _react.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formBasicBirthday"
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "form-label"
+      }, "Birthday"), _react.default.createElement(_reactBootstrap.Form.Control, {
+        type: "data",
+        placeholder: "New Birthday",
+        onChange: function onChange(e) {
+          return setBirthday(e.target.value);
+        }
+      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
+        type: "invalid"
+      }, "Please enter valid birthday")), _react.default.createElement(_reactBootstrap.Button, {
+        className: "update-button",
+        type: "submit"
+      }, "Update info"))));
     }
   }]);
 
@@ -52151,7 +52147,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40792" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42932" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

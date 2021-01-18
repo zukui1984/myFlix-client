@@ -7,13 +7,13 @@ import PropTypes from "prop-types";
 import "./profile-view.scss";
 
 export class ProfileView extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    (this.Username = null),
-      (this.Password = null),
-      (this.Email = null),
-      (this.Birthday = null);
+      this.Username = null,
+      this.Password = null,
+      this.Email = null,
+      this.Birthday = null;
 
     this.state = {
       Username: null,
@@ -21,7 +21,7 @@ export class ProfileView extends React.Component {
       Email: null,
       Birthday: null,
       validated: null,
-      movies: [],
+      movie: [],
       FavoriteMovies: [],
     };
   }
@@ -146,9 +146,8 @@ export class ProfileView extends React.Component {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
 
-    axios
-      .delete(
-        "https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}",
+    axios.delete(
+        "https://movie-api-1684.herokuapp.com/users/${username}/Movies/${movie}",
         {
           headers: { Authorization: "Bearer ${token}" },
         }
@@ -169,8 +168,7 @@ export class ProfileView extends React.Component {
     const token = localStorage.getItem("token");
 
     return (
-      // Opening Part
-      <Container>
+       <Container>
         <Card className="profile-view">
           <Card.Body>
             <Card.Text className="profile-text">
@@ -184,7 +182,7 @@ export class ProfileView extends React.Component {
             </Card.Text>
 
             <Button
-              onClick={() => this.handleRemoveUser()}
+              onClick={() => handleRemoveUser(movie)}
               variant="closing"
               className="delete-button"
             >
@@ -202,19 +200,31 @@ export class ProfileView extends React.Component {
         <Card className="favorite-movies">
           Favorite Movies
           <Card.Body>
-            <Card.Img variant="top" src={movie.ImagePath} />
+            
+          <Card.Img variant="top" src={movie.ImagePath} />  
 
-            <Link to={"/movies/${movies._id"}>
+            {/* <Card.Title>{movie.Title}</Card.Title>
+          <Card.Text>{movie.Description}</Card.Text> */}
+
+
+            <Link to={"/movies/${movie.id"}>
               <Button variant="link" className="fav-movie">
                 Movie Information
               </Button>
             </Link>
 
-            <Link to="/">
+            {/* <Link to="/">
               <Button onClick={() => this.removeFavorite(movie._id)}>
                 Remove Movie
               </Button>
+            </Link> */}
+
+            <Link to="/">
+              <Button onClick={this.removeFavorite}>
+                Remove Movie
+              </Button>
             </Link>
+
           </Card.Body>
         </Card>
 
@@ -280,9 +290,11 @@ export class ProfileView extends React.Component {
                 Please enter valid birthday
               </Form.Control.Check>
             </Form.Group>
+
             <Button className="update-button" type="submit">
               Update info
             </Button>
+
           </Form>
         </Card.Body>
       </Container>
@@ -296,6 +308,6 @@ ProfileView.propTypes = {
     Password: PropTypes.string.isRequired,
     Email: PropTypes.string.isRequired,
     Birthday: PropTypes.string.isRequired,
-    FavoriteMovies: PropTypes.arrayOf,
+    FavoriteMovies: PropTypes.arrayOf, 
   }),
 };
