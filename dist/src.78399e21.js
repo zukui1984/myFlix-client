@@ -50929,7 +50929,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _Card = require("react-bootstrap/Card");
+var _reactBootstrap = require("react-bootstrap");
 
 var _reactRouterDom = require("react-router-dom");
 
@@ -50971,27 +50971,25 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          onClick = _this$props.onClick;
-      return _react.default.createElement(_Card.Card, {
+      var movie = this.props.movie;
+      return _react.default.createElement(_reactBootstrap.Card, {
         style: {
           width: '16rem'
         }
-      }, _react.default.createElement(_Card.Card.Img, {
+      }, _react.default.createElement(_reactBootstrap.Card.Img, {
         variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement(_Card.Card.Body, null, _react.default.createElement(_Card.Card.Title, null, movie.Title), _react.default.createElement(_Card.Card.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
+      }), _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Title, null, movie.Title), _react.default.createElement(_reactBootstrap.Card.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/".concat(movie._id)
-      }, _react.default.createElement(_Card.Button, {
+      }, _react.default.createElement(_reactBootstrap.Button, {
         variant: "link"
       }, "Open")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/directors/".concat(movie.Director.Name)
-      }, _react.default.createElement(_Card.Button, {
+      }, _react.default.createElement(_reactBootstrap.Button, {
         variant: "link"
       }, "Director")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/genres/".concat(movie.Genre.Name)
-      }, _react.default.createElement(_Card.Button, {
+      }, _react.default.createElement(_reactBootstrap.Button, {
         variant: "link"
       }, "Genre"))));
     }
@@ -51018,7 +51016,7 @@ MovieCard.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51538,7 +51536,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "getUser",
-    value: function getUser(_token) {
+    value: function getUser(token) {
       var _this2 = this;
 
       var username = localStorage.getItem('user');
@@ -51683,7 +51681,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this6 = this;
 
-      var movies = this.props.movies;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          onClick = _this$props.onClick;
       var validated = this.state.validated;
       var username = localStorage.getItem('user');
       var token = localStorage.getItem('token');
@@ -51707,7 +51707,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }, _react.default.createElement(_reactBootstrap.Button, {
           className: "delete-button",
           variant: "info"
-        }, "Back")))), "// Movie List and Remove", _react.default.createElement(_reactBootstrap.Card, {
+        }, "Back")))), _react.default.createElement(_reactBootstrap.Card, {
           className: "favorite-movies"
         }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
           variant: "top",
@@ -51723,7 +51723,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           onClick: function onClick() {
             return _this6.removeFavorite(movie._id);
           }
-        }, "Remove Movie")))), "// Update Container + Form", _react.default.createElement(_reactBootstrap.Card.Body, {
+        }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
           className: "update-card"
         }, _react.default.createElement(_reactBootstrap.Form, {
           noValidate: true,
@@ -51732,7 +51732,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           onSubmit: function onSubmit(e) {
             return _this6.handleUpdate(e, _this6.Username, _this6.Password, _this6.Email, _this6.Birthday);
           }
-        }, "// Username", _react.default.createElement(_reactBootstrap.Form.Group, {
+        }, _react.default.createElement(_reactBootstrap.Form.Group, {
           controlId: "formBasicUsername"
         }, _react.default.createElement(_reactBootstrap.Form.Label, {
           className: "form-label"
@@ -51744,7 +51744,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
-        }, "Please enter correct characters")), "// Email", _react.default.createElement(_reactBootstrap.Form.Group, {
+        }, "Please enter correct characters")), _react.default.createElement(_reactBootstrap.Form.Group, {
           controlId: "formBasicEmail"
         }, _react.default.createElement(_reactBootstrap.Form.Label, {
           className: "form-label"
@@ -51756,7 +51756,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
-        }, "Please enter valid email address")), "// Password", _react.default.createElement(_reactBootstrap.Form.Group, {
+        }, "Please enter valid email address")), _react.default.createElement(_reactBootstrap.Form.Group, {
           controlId: "formBasicPassword"
         }, _react.default.createElement(_reactBootstrap.Form.Label, {
           className: "form-label"
@@ -51768,7 +51768,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
-        }, "Please enter valid password")), "// Birthday", _react.default.createElement(_reactBootstrap.Form.Group, {
+        }, "Please enter valid password")), _react.default.createElement(_reactBootstrap.Form.Group, {
           controlId: "formBasicBirthday"
         }, _react.default.createElement(_reactBootstrap.Form.Label, {
           className: "form-label"
@@ -51799,7 +51799,8 @@ ProfileView.propTypes = {
     Email: _propTypes.default.string.isRequired,
     Birthday: _propTypes.default.string.isRequired,
     FavoriteMovies: _propTypes.default.arrayOf
-  })
+  }),
+  onClick: _propTypes.default.func.isRequired
 };
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","prop-types":"../node_modules/prop-types/index.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -51967,10 +51968,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        exact: true,
         path: "/register",
         render: function render() {
           return _react.default.createElement(_registrationView.RegistrationView, null);
+        }
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/register",
+        render: function render() {
+          return _react.default.createElement(_loginView.LoginView, null);
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/movies/:movieId",
@@ -52142,7 +52147,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3219" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4704" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

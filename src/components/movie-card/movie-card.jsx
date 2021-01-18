@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Card, Button} from "react-bootstrap/Card";
+import {Card, Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export class MovieCard extends React.Component {
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     return (
       <Card style={{ width: '16rem' }}>

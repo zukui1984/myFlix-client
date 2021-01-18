@@ -33,7 +33,7 @@ export class ProfileView extends React.Component {
     }
   }
 
-  getUser(_token) {
+  getUser(token) {
     const username = localStorage.getItem('user');
 
     axios
@@ -159,7 +159,7 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { movies } = this.props;
+    const { movie, onClick } = this.props;
     const { validated } = this.state;
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
@@ -187,7 +187,6 @@ export class ProfileView extends React.Component {
           </Card.Body>
         </Card>
 
-        // Movie List and Remove
         <Card className="favorite-movies">
           Favorite Movies
           <Card.Body>
@@ -206,7 +205,6 @@ export class ProfileView extends React.Component {
         </Card>
 
 
-        // Update Container + Form
         <Card.Body className="update-card">
           <Form
             noValidate
@@ -223,7 +221,6 @@ export class ProfileView extends React.Component {
             }
           >
 
-            // Username
             <Form.Group controlId="formBasicUsername">
               <Form.Label className="form-label">Username</Form.Label>
               <Form.Control
@@ -236,7 +233,7 @@ export class ProfileView extends React.Component {
               </Form.Control.Check>
             </Form.Group>
 
-            // Email
+          
             <Form.Group controlId="formBasicEmail">
               <Form.Label className="form-label">Email</Form.Label>
               <Form.Control
@@ -249,7 +246,7 @@ export class ProfileView extends React.Component {
               </Form.Control.Check>
             </Form.Group>
 
-            // Password
+          
             <Form.Group controlId="formBasicPassword">
               <Form.Label className="form-label">Password</Form.Label>
               <Form.Control
@@ -262,7 +259,7 @@ export class ProfileView extends React.Component {
               </Form.Control.Check>
             </Form.Group>
             
-            // Birthday
+          
             <Form.Group controlId="formBasicBirthday">
               <Form.Label className="form-label">Birthday</Form.Label>
               <Form.Control
@@ -292,4 +289,5 @@ ProfileView.propTypes = {
     Birthday: PropTypes.string.isRequired,
     FavoriteMovies: PropTypes.arrayOf,
   }),
+  onClick: PropTypes.func.isRequired,
 };
