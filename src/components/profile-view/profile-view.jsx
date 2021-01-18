@@ -163,7 +163,7 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { movies, onClick } = this.props;
+    const { movie, onClick } = this.props;
     const { validated } = this.state;
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
@@ -202,7 +202,7 @@ export class ProfileView extends React.Component {
         <Card className="favorite-movies">
           Favorite Movies
           <Card.Body>
-            <Card.Img variant="top" src={movies.ImagePath} />
+            <Card.Img variant="top" src={movie.ImagePath} />
 
             <Link to={"/movies/${movies._id"}>
               <Button variant="link" className="fav-movie">
@@ -210,8 +210,8 @@ export class ProfileView extends React.Component {
               </Button>
             </Link>
 
-            <Link to="">
-              <Button onClick={() => this.removeFavorite(movies._id)}>
+            <Link to="/">
+              <Button onClick={() => this.removeFavorite(movie._id)}>
                 Remove Movie
               </Button>
             </Link>
@@ -298,5 +298,4 @@ ProfileView.propTypes = {
     Birthday: PropTypes.string.isRequired,
     FavoriteMovies: PropTypes.arrayOf,
   }),
-  onClick: PropTypes.func.isRequired,
 };
