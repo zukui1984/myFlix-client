@@ -95,7 +95,6 @@ export class MainView extends React.Component {
 	   </ul>
       </Navbar>
 
-      
       <Route exact path="/"  render={() => 
             {if (!user) 
       return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} /> ;

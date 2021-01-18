@@ -10,10 +10,10 @@ export class ProfileView extends React.Component {
   constructor() {
     super();
 
-      this.Username = null,
-      this.Password = null,
-      this.Email = null,
-      this.Birthday = null;
+    (this.Username = null),
+      (this.Password = null),
+      (this.Email = null),
+      (this.Birthday = null);
 
     this.state = {
       Username: null,
@@ -27,18 +27,18 @@ export class ProfileView extends React.Component {
   }
 
   componentDidMount() {
-    let accessToken = localStorage.getItem('token');
+    let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
       this.getUser(accessToken);
     }
   }
 
   getUser(token) {
-    const username = localStorage.getItem('user');
+    const username = localStorage.getItem("user");
 
     axios
-      .get('https://movie-api-1684.herokuapp.com/users/${username}', {
-        headers: { Authorization: 'Bearer ${token}' },
+      .get("https://movie-api-1684.herokuapp.com/users/${username}", {
+        headers: { Authorization: "Bearer ${token}" },
       })
       .then((response) => {
         this.setState({
@@ -57,10 +57,11 @@ export class ProfileView extends React.Component {
   handleRemoveUser(e) {
     e.preventDefault();
 
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
 
-    axios.delete("https://movie-api-1684.herokuapp.com/users/${username}", {
+    axios
+      .delete("https://movie-api-1684.herokuapp.com/users/${username}", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -92,14 +93,14 @@ export class ProfileView extends React.Component {
     const username = localStorage.getItem("user");
 
     axios({
-      method: 'put',
+      method: "put",
       url: "https://movie-api-1684.herokuapp.com/users/${username}",
       headers: { Authorization: "Bearer ${token}" },
       data: {
         Username: newUsername ? newUsername : this.state.Username,
-				Password: newPassword ? newPassword : this.state.Password,
-				Email: newEmail ? newEmail : this.state.Email,
-				Birthday: newBirthday ? newBirthday : this.state.Birthday,
+        Password: newPassword ? newPassword : this.state.Password,
+        Email: newEmail ? newEmail : this.state.Email,
+        Birthday: newBirthday ? newBirthday : this.state.Birthday,
       },
     })
       .then((response) => {
@@ -110,8 +111,8 @@ export class ProfileView extends React.Component {
           Email: response.data.Email,
           Birthday: response.data.Birthday,
         });
-          localStorage.setItem('user', this.state.Username);
-        window.open('/users/${username}', '_self');
+        localStorage.setItem("user", this.state.Username);
+        window.open("/users/${username}", "_self");
       })
       .catch((e) => {
         console.log("error");
@@ -142,15 +143,18 @@ export class ProfileView extends React.Component {
 
   removeFavorite(e) {
     e.preventDefault();
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
 
-    axios.delete(
-        'https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}', {
+    axios
+      .delete(
+        "https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}",
+        {
           headers: { Authorization: "Bearer ${token}" },
-        })
+        }
+      )
       .then(() => {
-        alert('Movie successfully removed');
+        alert("Movie successfully removed");
         this.componentDidMount();
       })
       .catch(function (error) {
@@ -161,17 +165,23 @@ export class ProfileView extends React.Component {
   render() {
     const { movies, onClick } = this.props;
     const { validated } = this.state;
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
 
     return (
       // Opening Part
       <Container>
         <Card className="profile-view">
           <Card.Body>
-            <Card.Text className="profile-text">Username: {this.state.Username}</Card.Text>
-            <Card.Text className="profile-text">Email: {this.state.Email}</Card.Text>
-            <Card.Text className="profile-text">Birthday: {this.state.Birthday}</Card.Text>
+            <Card.Text className="profile-text">
+              Username: {this.state.Username}
+            </Card.Text>
+            <Card.Text className="profile-text">
+              Email: {this.state.Email}
+            </Card.Text>
+            <Card.Text className="profile-text">
+              Birthday: {this.state.Birthday}
+            </Card.Text>
 
             <Button
               onClick={() => this.handleRemoveUser()}
@@ -181,8 +191,10 @@ export class ProfileView extends React.Component {
               Delete account
             </Button>
 
-            <Link to={'/'}>
-              <Button className="delete-button" variant="info">Back</Button>
+            <Link to={"/"}>
+              <Button className="delete-button" variant="info">
+                Back
+              </Button>
             </Link>
           </Card.Body>
         </Card>
@@ -192,18 +204,19 @@ export class ProfileView extends React.Component {
           <Card.Body>
             <Card.Img variant="top" src={movies.ImagePath} />
 
-            <Link to={'/movies/${movies._id'}>
-              <Button variant='link' className='fav-movie'>Movie Information</Button>
+            <Link to={"/movies/${movies._id"}>
+              <Button variant="link" className="fav-movie">
+                Movie Information
+              </Button>
             </Link>
 
-            <Link to=''>
+            <Link to="">
               <Button onClick={() => this.removeFavorite(movies._id)}>
                 Remove Movie
               </Button>
             </Link>
           </Card.Body>
         </Card>
-
 
         <Card.Body className="update-card">
           <Form
@@ -220,52 +233,48 @@ export class ProfileView extends React.Component {
               )
             }
           >
-
             <Form.Group controlId="formBasicUsername">
               <Form.Label className="form-label">Username</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='New Username'
-                onChange={(e) => this.setUsername(e.target.value)}
+                type="text"
+                placeholder="New Username"
+                onChange={(e) => setUsername(e.target.value)}
               />
-              <Form.Control.Check type='invalid'>
+              <Form.Control.Check type="invalid">
                 Please enter correct characters
               </Form.Control.Check>
             </Form.Group>
 
-          
             <Form.Group controlId="formBasicEmail">
               <Form.Label className="form-label">Email</Form.Label>
               <Form.Control
-                type='email'
-                placeholder='New Email'
-                onChange={(e) => this.setEmail(e.target.value)}
+                type="email"
+                placeholder="New Email"
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <Form.Control.Check type='invalid'>
+              <Form.Control.Check type="invalid">
                 Please enter valid email address
               </Form.Control.Check>
             </Form.Group>
 
-          
             <Form.Group controlId="formBasicPassword">
               <Form.Label className="form-label">Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="New Password"
-                onChange={(e) => this.setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Form.Control.Check type="invalid">
                 Please enter valid password
               </Form.Control.Check>
             </Form.Group>
-            
-          
+
             <Form.Group controlId="formBasicBirthday">
               <Form.Label className="form-label">Birthday</Form.Label>
               <Form.Control
                 type="data"
                 placeholder="New Birthday"
-                onChange={(e) => this.setBirthday(e.target.value)}
+                onChange={(e) => setBirthday(e.target.value)}
               />
               <Form.Control.Check type="invalid">
                 Please enter valid birthday

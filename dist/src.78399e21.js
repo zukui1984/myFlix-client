@@ -51025,6 +51025,10 @@ exports.MovieView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _reactRouterDom = require("react-router-dom");
+
+var _reactBootstrap = require("react-bootstrap");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -51100,11 +51104,13 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)), _react.default.createElement("button", {
-        onClick: function onClick() {
-          return goBack();
-        }
-      }, "Button"));
+      }, movie.Director.Name)), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        className: "register-btn",
+        variant: "primary",
+        type: "button"
+      }, "Button")));
     }
   }]);
 
@@ -51112,7 +51118,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -51527,7 +51533,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   _createClass(ProfileView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var accessToken = localStorage.getItem('token');
+      var accessToken = localStorage.getItem("token");
 
       if (accessToken !== null) {
         this.getUser(accessToken);
@@ -51538,11 +51544,11 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function getUser(token) {
       var _this2 = this;
 
-      var username = localStorage.getItem('user');
+      var username = localStorage.getItem("user");
 
-      _axios.default.get('https://movie-api-1684.herokuapp.com/users/${username}', {
+      _axios.default.get("https://movie-api-1684.herokuapp.com/users/${username}", {
         headers: {
-          Authorization: 'Bearer ${token}'
+          Authorization: "Bearer ${token}"
         }
       }).then(function (response) {
         _this2.setState({
@@ -51562,8 +51568,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.preventDefault();
-      var username = localStorage.getItem('user');
-      var token = localStorage.getItem('token');
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
 
       _axios.default.delete("https://movie-api-1684.herokuapp.com/users/${username}", {
         headers: {
@@ -51600,7 +51606,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var token = localStorage.getItem("token");
       var username = localStorage.getItem("user");
       (0, _axios.default)({
-        method: 'put',
+        method: "put",
         url: "https://movie-api-1684.herokuapp.com/users/${username}",
         headers: {
           Authorization: "Bearer ${token}"
@@ -51621,8 +51627,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Birthday: response.data.Birthday
         });
 
-        localStorage.setItem('user', _this4.state.Username);
-        window.open('/users/${username}', '_self');
+        localStorage.setItem("user", _this4.state.Username);
+        window.open("/users/${username}", "_self");
       }).catch(function (e) {
         console.log("error");
       });
@@ -51660,15 +51666,15 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var _this5 = this;
 
       e.preventDefault();
-      var username = localStorage.getItem('user');
-      var token = localStorage.getItem('token');
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
 
-      _axios.default.delete('https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}', {
+      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}", {
         headers: {
           Authorization: "Bearer ${token}"
         }
       }).then(function () {
-        alert('Movie successfully removed');
+        alert("Movie successfully removed");
 
         _this5.componentDidMount();
       }).catch(function (error) {
@@ -51684,8 +51690,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           movies = _this$props.movies,
           onClick = _this$props.onClick;
       var validated = this.state.validated;
-      var username = localStorage.getItem('user');
-      var token = localStorage.getItem('token');
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
       return (// Opening Part
         _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Card, {
           className: "profile-view"
@@ -51702,7 +51708,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           variant: "closing",
           className: "delete-button"
         }, "Delete account"), _react.default.createElement(_reactRouterDom.Link, {
-          to: '/'
+          to: "/"
         }, _react.default.createElement(_reactBootstrap.Button, {
           className: "delete-button",
           variant: "info"
@@ -51712,7 +51718,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           variant: "top",
           src: movies.ImagePath
         }), _react.default.createElement(_reactRouterDom.Link, {
-          to: '/movies/${movies._id'
+          to: "/movies/${movies._id"
         }, _react.default.createElement(_reactBootstrap.Button, {
           variant: "link",
           className: "fav-movie"
@@ -51739,7 +51745,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           type: "text",
           placeholder: "New Username",
           onChange: function onChange(e) {
-            return _this6.setUsername(e.target.value);
+            return setUsername(e.target.value);
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
@@ -51751,7 +51757,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           type: "email",
           placeholder: "New Email",
           onChange: function onChange(e) {
-            return _this6.setEmail(e.target.value);
+            return setEmail(e.target.value);
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
@@ -51763,7 +51769,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           type: "password",
           placeholder: "New Password",
           onChange: function onChange(e) {
-            return _this6.setPassword(e.target.value);
+            return setPassword(e.target.value);
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
@@ -51775,7 +51781,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           type: "data",
           placeholder: "New Birthday",
           onChange: function onChange(e) {
-            return _this6.setBirthday(e.target.value);
+            return setBirthday(e.target.value);
           }
         }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
           type: "invalid"
@@ -52146,7 +52152,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14740" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "16478" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
