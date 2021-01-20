@@ -50885,7 +50885,7 @@ function LoginView(props) {
   })), _react.default.createElement(_reactBootstrap.Form.Group, {
     controlId: "formBasicPassword"
   }, _react.default.createElement(_reactBootstrap.Form.Label, null, "Password"), _react.default.createElement(_reactBootstrap.Form.Control, {
-    type: "text",
+    type: "password",
     placeholder: "Enter Password",
     value: password,
     onChange: function onChange(e) {
@@ -51546,7 +51546,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
       var username = localStorage.getItem("user");
 
-      _axios.default.get("https://movie-api-1684.herokuapp.com/users/${username}", {
+      _axios.default.get("https://movie-api-1684.herokuapp.com/users/".concat(username), {
         headers: {
           Authorization: "Bearer ${token}"
         }
@@ -51564,21 +51564,19 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleRemoveUser",
-    value: function handleRemoveUser(e) {
+    value: function handleRemoveUser() {
       var _this3 = this;
 
-      e.preventDefault();
+      console.log();
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
-      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/${username}", {
+      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function () {
-        alert("Delete this option?");
-
-        _this3.componentDidMount();
+        if (confirm("Do you really want to delete the user?")) _this3.componentDidMount();
       }).catch(function (error) {
         console.log(error);
       });
@@ -51607,7 +51605,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var username = localStorage.getItem("user");
       (0, _axios.default)({
         method: "put",
-        url: "https://movie-api-1684.herokuapp.com/users/${username}",
+        url: "https://movie-api-1684.herokuapp.com/users/".concat(username),
         headers: {
           Authorization: "Bearer ${token}"
         },
@@ -51628,7 +51626,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         });
 
         localStorage.setItem("user", _this4.state.Username);
-        window.open("/users/${username}", "_self");
+        window.open("/users/".concat(username), "_self");
       }).catch(function (e) {
         console.log("error");
       });
@@ -51662,14 +51660,15 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "removeFavorite",
-    value: function removeFavorite(e) {
+    value: function removeFavorite() {
       var _this5 = this;
 
       e.preventDefault();
+      console.log();
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
-      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/${username}/Movies/${movie}", {
+      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username, "/Favorites/").concat(movie), {
         headers: {
           Authorization: "Bearer ${token}"
         }
@@ -51702,7 +51701,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "profile-text"
       }, "Birthday: ", this.state.Birthday), _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
-          return handleRemoveUser(movie);
+          return _this6.handleRemoveUser(movie);
         },
         variant: "closing",
         className: "delete-button"
@@ -51713,18 +51712,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         variant: "info"
       }, "Back")))), _react.default.createElement(_reactBootstrap.Card, {
         className: "favorite-movies"
-      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
-        variant: "top",
-        src: movie.ImagePath
-      }), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/movies/${movie.id"
-      }, _react.default.createElement(_reactBootstrap.Button, {
-        variant: "link",
-        className: "fav-movie"
-      }, "Movie Information")), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
-        onClick: this.removeFavorite
+        onClick: function onClick() {
+          return _this6.removeFavorite(movie._id);
+        }
       }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
         className: "update-card"
       }, _react.default.createElement(_reactBootstrap.Form, {
@@ -51744,9 +51737,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         onChange: function onChange(e) {
           return setUsername(e.target.value);
         }
-      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-        type: "invalid"
-      }, "Please enter correct characters")), _react.default.createElement(_reactBootstrap.Form.Group, {
+      })), _react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formBasicEmail"
       }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "form-label"
@@ -51756,9 +51747,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         onChange: function onChange(e) {
           return setEmail(e.target.value);
         }
-      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-        type: "invalid"
-      }, "Please enter valid email address")), _react.default.createElement(_reactBootstrap.Form.Group, {
+      })), _react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formBasicPassword"
       }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "form-label"
@@ -51768,9 +51757,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         onChange: function onChange(e) {
           return setPassword(e.target.value);
         }
-      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-        type: "invalid"
-      }, "Please enter valid password")), _react.default.createElement(_reactBootstrap.Form.Group, {
+      })), _react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formBasicBirthday"
       }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "form-label"
@@ -51780,9 +51767,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         onChange: function onChange(e) {
           return setBirthday(e.target.value);
         }
-      }), _react.default.createElement(_reactBootstrap.Form.Control.Check, {
-        type: "invalid"
-      }, "Please enter valid birthday")), _react.default.createElement(_reactBootstrap.Button, {
+      })), _react.default.createElement(_reactBootstrap.Button, {
         className: "update-button",
         type: "submit"
       }, "Update info"))));
@@ -52147,7 +52132,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42932" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52255" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
