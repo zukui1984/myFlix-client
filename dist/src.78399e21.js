@@ -51068,11 +51068,27 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(MovieView, [{
+    key: "addFavoriteMovie",
+    value: function addFavoriteMovie(movie) {
+      var token = localStorage.getItem('token');
+      var username = localStorage.getItem('user');
+      if (confirm('Add this to the list?')) return axios({
+        method: 'put',
+        url: "https://movie-api-1684.herokuapp.com/users/".concat(username, "/movies/").concat(movie._id),
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        console.log(response);
+        alert('You have successfully add this to your list');
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          goBack = _this$props.goBack;
+      var _this2 = this;
+
+      var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement("div", {
         className: "movie-view"
@@ -51103,7 +51119,13 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)), _react.default.createElement(_reactRouterDom.Link, {
+      }, movie.Director.Name)), _react.default.createElement(_reactBootstrap.Button, {
+        variant: "success",
+        className: "favorite-btn",
+        onClick: function onClick() {
+          return _this2.addFavoriteMovie(movie);
+        }
+      }, "Add to Favorite List"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
         className: "register-btn",
@@ -51160,7 +51182,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function RegistrationView(props) {
+function RegistrationView() {
   var _useState = (0, _react.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
       username = _useState2[0],
@@ -51256,7 +51278,7 @@ function RegistrationView(props) {
     type: "submit",
     onClick: handleSubmit
   }, "Register"), _react.default.createElement(_reactRouterDom.Link, {
-    to: '/'
+    to: "/"
   }, _react.default.createElement(_reactBootstrap.Button, {
     className: "register-btn",
     variant: "primary",
@@ -51510,13 +51532,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(ProfileView);
 
-  function ProfileView(props) {
+  function ProfileView() {
     var _this;
 
     _classCallCheck(this, ProfileView);
 
-    _this = _super.call(this, props);
-    _this.Username = null, _this.Password = null, _this.Email = null, _this.Birthday = null;
+    _this = _super.call(this);
     _this.state = {
       Username: null,
       Password: null,
@@ -51561,23 +51582,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         console.log(error);
       });
     }
-    /* handleRemoveUser() {
-       const username = localStorage.getItem("user");
-       const token = localStorage.getItem("token");
-    
-       if (confirm("Do you really want to delete the user?")) {
-       return(
-       axios.delete(`https://movie-api-1684.herokuapp.com/users/${username}`, {
-           headers: { Authorization: `Bearer ${token}` },
-         })
-         .then((response) => {
-           console.log(response);
-             alert('Account has been deleted');
-         })
-       )
-       }
-     } */
-
   }, {
     key: "removeFavorite",
     value: function removeFavorite(movie) {
@@ -51679,6 +51683,24 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
       var movie = this.props.movie;
       var validated = this.state.validated;
+      var favoritesToRender;
+
+      if (this.state.FavoriteMovies) {
+        var favorites = this.props.movies.filter(function (movie) {
+          return _this4.state.FavoriteMovies.indexOf(movie._id) > -1;
+        });
+        console.log(favorites);
+        favoritesToRender = favorites.map(function (m) {
+          console.log(m, '!!m');
+          return _react.default.createElement(_reactRouterDom.Link, {
+            key: m._id,
+            to: "/movies/".concat(m._id)
+          }, _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Button, {
+            variant: "link"
+          }, m.Title)));
+        });
+      }
+
       return _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Card, {
         className: "profile-view"
       }, _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Text, {
@@ -51701,14 +51723,11 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }, "Delete account"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
-        className: "delete-button",
+        className: "back-button",
         variant: "info"
       }, "Back")))), _react.default.createElement(_reactBootstrap.Card, {
         className: "favorite-movies"
-      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
-        variant: "top",
-        src: movie.ImagePath
-      }), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
@@ -51717,7 +51736,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
         className: "update-card"
       }, _react.default.createElement(_reactBootstrap.Form, {
-        noValidate: true,
         validated: validated,
         className: "update-form",
         onSubmit: function onSubmit(e) {
@@ -52128,7 +52146,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "19425" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "15959" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

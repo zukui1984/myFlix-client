@@ -9,11 +9,31 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+  addFavoriteMovie(movie) {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('user');
+
+    if (confirm('Add this to the list?')) 
+    return (
+    axios({
+        method: 'put',
+        url: `https://movie-api-1684.herokuapp.com/users/${username}/movies/${movie._id}`,
+        headers: { Authorization: `Bearer ${token}` }
+    })
+            .then((response) => {
+                console.log(response);
+        alert('You have successfully add this to your list');
+    })
+   )
+  }
+
   render() {
-    const { movie, goBack } = this.props;
+    const { movie } = this.props;
 
     if(!movie) return null;
+
     return (
+
       <div className="movie-view">
         <img className="movie-poster" src={movie.ImagePath} />
         <div className="movie-title">
@@ -33,8 +53,12 @@ export class MovieView extends React.Component {
           <span className="label">Director: </span>
           <span className="value">{movie.Director.Name}</span>
         </div>
+
+        <Button variant='success' className='favorite-btn' 
+        onClick={() => this.addFavoriteMovie(movie)}>
+        Add to Favorite List</Button>
       
-        <Link to={"/"}>
+        <Link to="/">
           <Button className="register-btn" variant="primary" type="button">
             Button
           </Button>

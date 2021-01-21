@@ -7,13 +7,8 @@ import PropTypes from "prop-types";
 import "./profile-view.scss";
 
 export class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
-
-    (this.Username = null),
-      (this.Password = null),
-      (this.Email = null),
-      (this.Birthday = null);
+  constructor() {
+    super();
 
     this.state = {
       Username: null,
@@ -53,24 +48,7 @@ export class ProfileView extends React.Component {
       });
   }
 
- /* handleRemoveUser() {
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-
-    if (confirm("Do you really want to delete the user?")) {
-    return(
-    axios.delete(`https://movie-api-1684.herokuapp.com/users/${username}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        console.log(response);
-          alert('Account has been deleted');
-      })
-    )
-    }
-  } */
-
-  removeFavorite(movie) {
+   removeFavorite(movie) {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
        if (confirm("Do you really want to delete the user?")) {
@@ -156,13 +134,27 @@ export class ProfileView extends React.Component {
     window.open("/", "_self");
   }
 
-
-
  
   render() {
     const { movie } = this.props;
     const { validated } = this.state;
   
+    let favoritesToRender;
+    if (this.state.FavoriteMovies) {
+      const favorites = this.props.movies.filter(
+        movie => this.state.FavoriteMovies.indexOf(movie._id) > -1);
+      console.log(favorites)
+      favoritesToRender = favorites.map(m => {
+        console.log(m, '!!m')
+        return (
+        <Link key={m._id} to={`/movies/${m._id}`}>
+        <div>
+        <Button variant="link">{m.Title}</Button>
+        </div>
+        </Link>);
+      });
+    }
+
     return (
       <Container>
         <Card className="profile-view">
@@ -191,7 +183,7 @@ export class ProfileView extends React.Component {
             </Button>
             
             <Link to="/">
-              <Button className="delete-button" variant="info">
+              <Button className="back-button" variant="info">
                 Back
               </Button>
             </Link>
@@ -202,7 +194,7 @@ export class ProfileView extends React.Component {
           Favorite Movies
           <Card.Body>
 
-          <Card.Img variant='top' src={movie.ImagePath} />
+          {/* <Card.Img variant='top' src={movie.ImagePath} /> */}
 
          
            <Link to="/">
@@ -216,7 +208,6 @@ export class ProfileView extends React.Component {
 
         <Card.Body className="update-card">
           <Form
-            noValidate
             validated={validated}
             className="update-form"
             onSubmit={(e) =>

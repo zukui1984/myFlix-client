@@ -5,7 +5,7 @@ import "./registration-view.scss";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export function RegistrationView(props) {
+export function RegistrationView() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -26,7 +26,7 @@ export function RegistrationView(props) {
      console.log(data);
      window.open('/', '_self'); 
   })
-  .catch(e => {
+  .catch((e) => {
     console.log('error registering the user')
    })
  };
@@ -90,7 +90,7 @@ export function RegistrationView(props) {
         Register
       </Button>
 
-      <Link to={'/'}>
+      <Link to='/'>
       <Button className='register-btn' variant='primary' 
       type='button'>Back</Button>        
        </Link> 
