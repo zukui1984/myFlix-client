@@ -36,8 +36,7 @@ export class ProfileView extends React.Component {
   getUser(token) {
     const username = localStorage.getItem("user");
 
-    axios
-      .get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+    axios.get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
         headers: { Authorization: "Bearer ${token}" },
       })
       .then((response) => {
@@ -55,23 +54,23 @@ export class ProfileView extends React.Component {
   }
 
   handleRemoveUser() {
-    console.log();
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
 
-    axios
-      .delete(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+    if (confirm("Do you really want to delete the user?")) {
+      return(
+    axios.delete(`https://movie-api-1684.herokuapp.com/users/${username}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then(() => {
-        if (confirm("Do you really want to delete the user?"))
-        this.componentDidMount();
+      .then((response) => {
+        console.log(response);
+          alert('Account has been deleted');
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+    )
+    }
   }
 
+  
   handleUpdate(e, newUsername, newPassword, newEmail, newBirthday) {
     this.setState({
       validated: null,
@@ -85,7 +84,7 @@ export class ProfileView extends React.Component {
         validated: true,
       });
       return;
-    }
+    } 
 
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -115,7 +114,7 @@ export class ProfileView extends React.Component {
         window.open(`/users/${username}`, "_self");
       })
       .catch((e) => {
-        console.log("error");
+        console.log(response);
       });
   }
 
@@ -141,9 +140,7 @@ export class ProfileView extends React.Component {
     window.open("/", "_self");
   }
 
-  removeFavorite() {
-    e.preventDefault();
-    console.log();
+  removeFavorite(movie) {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
 
@@ -164,12 +161,10 @@ export class ProfileView extends React.Component {
 
  
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
     const { validated } = this.state;
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-
-
+    const userMovies = this.state.FavoriteMovies;
+  
     return (
       <Container>
         <Card className="profile-view">
@@ -184,6 +179,11 @@ export class ProfileView extends React.Component {
               Birthday: {this.state.Birthday}
             </Card.Text>
 
+        <Link to='/users/:username'>
+            <Button variant='success' className='update-button'>
+            Update Profile</Button>
+        </Link>
+
             <Button
               onClick={() => this.handleRemoveUser(movie)}
               variant="closing"
@@ -192,7 +192,7 @@ export class ProfileView extends React.Component {
               Delete account
             </Button>
             
-            <Link to={"/"}>
+            <Link to="/">
               <Button className="delete-button" variant="info">
                 Back
               </Button>
@@ -203,12 +203,15 @@ export class ProfileView extends React.Component {
         <Card className="favorite-movies">
           Favorite Movies
           <Card.Body>
+
+          <Card.Img variant='top' src={movie.ImagePath} />
+
          
            <Link to="/">
               <Button onClick={() => this.removeFavorite(movie._id)}>
                 Remove Movie
               </Button>
-            </Link>  
+            </Link>   
 
             </Card.Body>
         </Card>
@@ -267,6 +270,7 @@ export class ProfileView extends React.Component {
             <Button className="update-button" type="submit">
               Update info
             </Button>
+
           </Form>
         </Card.Body>
       </Container>

@@ -50858,9 +50858,8 @@ function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    /* Send a request to the server for authentication */
 
-    _axios.default.post("https://movie-api-1684.herokuapp.com/login", {
+    _axios.default.post('https://movie-api-1684.herokuapp.com/login', {
       Username: username,
       Password: password
     }).then(function (response) {
@@ -51565,26 +51564,24 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleRemoveUser",
     value: function handleRemoveUser() {
-      var _this3 = this;
-
-      console.log();
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
-      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username), {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function () {
-        if (confirm("Do you really want to delete the user?")) _this3.componentDidMount();
-      }).catch(function (error) {
-        console.log(error);
-      });
+      if (confirm("Do you really want to delete the user?")) {
+        return _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username), {
+          headers: {
+            Authorization: "Bearer ".concat(token)
+          }
+        }).then(function (response) {
+          console.log(response);
+          alert('Account has been deleted');
+        });
+      }
     }
   }, {
     key: "handleUpdate",
     value: function handleUpdate(e, newUsername, newPassword, newEmail, newBirthday) {
-      var _this4 = this;
+      var _this3 = this;
 
       this.setState({
         validated: null
@@ -51618,17 +51615,17 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).then(function (response) {
         alert("Saved Changes");
 
-        _this4.setState({
+        _this3.setState({
           Username: response.data.Username,
           Password: response.data.Password,
           Email: response.data.Email,
           Birthday: response.data.Birthday
         });
 
-        localStorage.setItem("user", _this4.state.Username);
+        localStorage.setItem("user", _this3.state.Username);
         window.open("/users/".concat(username), "_self");
       }).catch(function (e) {
-        console.log("error");
+        console.log(response);
       });
     }
   }, {
@@ -51660,11 +51657,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "removeFavorite",
-    value: function removeFavorite() {
-      var _this5 = this;
+    value: function removeFavorite(movie) {
+      var _this4 = this;
 
-      e.preventDefault();
-      console.log();
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
@@ -51675,7 +51670,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).then(function () {
         alert("Movie successfully removed");
 
-        _this5.componentDidMount();
+        _this4.componentDidMount();
       }).catch(function (error) {
         console.log(error);
       });
@@ -51683,14 +51678,11 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this5 = this;
 
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          onClick = _this$props.onClick;
+      var movie = this.props.movie;
       var validated = this.state.validated;
-      var username = localStorage.getItem("user");
-      var token = localStorage.getItem("token");
+      var userMovies = this.state.FavoriteMovies;
       return _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Card, {
         className: "profile-view"
       }, _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Text, {
@@ -51699,9 +51691,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "profile-text"
       }, "Email: ", this.state.Email), _react.default.createElement(_reactBootstrap.Card.Text, {
         className: "profile-text"
-      }, "Birthday: ", this.state.Birthday), _react.default.createElement(_reactBootstrap.Button, {
+      }, "Birthday: ", this.state.Birthday), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/users/:username"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        variant: "success",
+        className: "update-button"
+      }, "Update Profile")), _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
-          return _this6.handleRemoveUser(movie);
+          return _this5.handleRemoveUser(movie);
         },
         variant: "closing",
         className: "delete-button"
@@ -51712,11 +51709,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         variant: "info"
       }, "Back")))), _react.default.createElement(_reactBootstrap.Card, {
         className: "favorite-movies"
-      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactRouterDom.Link, {
+      }, "Favorite Movies", _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Img, {
+        variant: "top",
+        src: movie.ImagePath
+      }), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
-          return _this6.removeFavorite(movie._id);
+          return _this5.removeFavorite(movie._id);
         }
       }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
         className: "update-card"
@@ -51725,7 +51725,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         validated: validated,
         className: "update-form",
         onSubmit: function onSubmit(e) {
-          return _this6.handleUpdate(e, _this6.Username, _this6.Password, _this6.Email, _this6.Birthday);
+          return _this5.handleUpdate(e, _this5.Username, _this5.Password, _this5.Email, _this5.Birthday);
         }
       }, _react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formBasicUsername"
@@ -52132,7 +52132,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52255" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "13809" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
