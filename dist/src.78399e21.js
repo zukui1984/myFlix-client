@@ -50846,12 +50846,12 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function LoginView(props) {
-  var _useState = (0, _react.useState)(""),
+  var _useState = (0, _react.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
       username = _useState2[0],
       setUsername = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(""),
+  var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
       password = _useState4[0],
       setPassword = _useState4[1];
@@ -50859,7 +50859,7 @@ function LoginView(props) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
 
-    _axios.default.post('https://movie-api-1684.herokuapp.com/login', {
+    _axios.default.post("https://movie-api-1684.herokuapp.com/login", {
       Username: username,
       Password: password
     }).then(function (response) {
@@ -50894,7 +50894,7 @@ function LoginView(props) {
     controlId: "formBasicCheckbox"
   }, _react.default.createElement(_reactBootstrap.Form.Check, {
     type: "checkbox",
-    label: "Check me out"
+    label: "Save login"
   })), _react.default.createElement(_reactBootstrap.Form.Row, null, _react.default.createElement(_reactBootstrap.Button, {
     className: "login-button",
     variant: "primary",
@@ -51547,7 +51547,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
       _axios.default.get("https://movie-api-1684.herokuapp.com/users/".concat(username), {
         headers: {
-          Authorization: "Bearer ${token}"
+          Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
         _this2.setState({
@@ -51561,14 +51561,31 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         console.log(error);
       });
     }
+    /* handleRemoveUser() {
+       const username = localStorage.getItem("user");
+       const token = localStorage.getItem("token");
+    
+       if (confirm("Do you really want to delete the user?")) {
+       return(
+       axios.delete(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+           headers: { Authorization: `Bearer ${token}` },
+         })
+         .then((response) => {
+           console.log(response);
+             alert('Account has been deleted');
+         })
+       )
+       }
+     } */
+
   }, {
-    key: "handleRemoveUser",
-    value: function handleRemoveUser() {
+    key: "removeFavorite",
+    value: function removeFavorite(movie) {
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
       if (confirm("Do you really want to delete the user?")) {
-        return _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username), {
+        return _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username, "/movies/").concat(movie._id), {
           headers: {
             Authorization: "Bearer ".concat(token)
           }
@@ -51604,7 +51621,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         method: "put",
         url: "https://movie-api-1684.herokuapp.com/users/".concat(username),
         headers: {
-          Authorization: "Bearer ${token}"
+          Authorization: "Bearer ".concat(token)
         },
         data: {
           Username: newUsername ? newUsername : this.state.Username,
@@ -51656,33 +51673,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       window.open("/", "_self");
     }
   }, {
-    key: "removeFavorite",
-    value: function removeFavorite(movie) {
-      var _this4 = this;
-
-      var username = localStorage.getItem("user");
-      var token = localStorage.getItem("token");
-
-      _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username, "/Favorites/").concat(movie), {
-        headers: {
-          Authorization: "Bearer ${token}"
-        }
-      }).then(function () {
-        alert("Movie successfully removed");
-
-        _this4.componentDidMount();
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
       var movie = this.props.movie;
       var validated = this.state.validated;
-      var userMovies = this.state.FavoriteMovies;
       return _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Card, {
         className: "profile-view"
       }, _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Text, {
@@ -51698,7 +51694,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "update-button"
       }, "Update Profile")), _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
-          return _this5.handleRemoveUser(movie);
+          return _this4.handleRemoveUser(movie);
         },
         variant: "closing",
         className: "delete-button"
@@ -51716,7 +51712,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
-          return _this5.removeFavorite(movie._id);
+          return _this4.removeFavorite(movie._id);
         }
       }, "Remove Movie")))), _react.default.createElement(_reactBootstrap.Card.Body, {
         className: "update-card"
@@ -51725,7 +51721,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         validated: validated,
         className: "update-form",
         onSubmit: function onSubmit(e) {
-          return _this5.handleUpdate(e, _this5.Username, _this5.Password, _this5.Email, _this5.Birthday);
+          return _this4.handleUpdate(e, _this4.Username, _this4.Password, _this4.Email, _this4.Birthday);
         }
       }, _react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formBasicUsername"
@@ -52132,7 +52128,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "13809" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "19425" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

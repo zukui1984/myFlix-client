@@ -37,7 +37,7 @@ export class ProfileView extends React.Component {
     const username = localStorage.getItem("user");
 
     axios.get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
-        headers: { Authorization: "Bearer ${token}" },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         this.setState({
@@ -53,13 +53,29 @@ export class ProfileView extends React.Component {
       });
   }
 
-  handleRemoveUser() {
+ /* handleRemoveUser() {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
 
     if (confirm("Do you really want to delete the user?")) {
-      return(
+    return(
     axios.delete(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        console.log(response);
+          alert('Account has been deleted');
+      })
+    )
+    }
+  } */
+
+  removeFavorite(movie) {
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+       if (confirm("Do you really want to delete the user?")) {
+    return(
+    axios.delete(`https://movie-api-1684.herokuapp.com/users/${username}/movies/${movie._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -94,7 +110,7 @@ export class ProfileView extends React.Component {
     axios({
       method: "put",
       url: `https://movie-api-1684.herokuapp.com/users/${username}`,
-      headers: { Authorization: "Bearer ${token}" },
+      headers: { Authorization: `Bearer ${token}` },
       data: {
         Username: newUsername ? newUsername : this.state.Username,
         Password: newPassword ? newPassword : this.state.Password,
@@ -140,30 +156,12 @@ export class ProfileView extends React.Component {
     window.open("/", "_self");
   }
 
-  removeFavorite(movie) {
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
 
-    axios.delete(
-        `https://movie-api-1684.herokuapp.com/users/${username}/Favorites/${movie}`,
-        {
-          headers: { Authorization: "Bearer ${token}" },
-        }
-      )
-      .then(() => {
-        alert("Movie successfully removed");
-        this.componentDidMount();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
  
   render() {
     const { movie } = this.props;
     const { validated } = this.state;
-    const userMovies = this.state.FavoriteMovies;
   
     return (
       <Container>

@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 import "./login-view.scss";
 
 export function LoginView(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://movie-api-1684.herokuapp.com/login', {
+    axios.post("https://movie-api-1684.herokuapp.com/login", {
         Username: username,
         Password: password,
       })
@@ -20,9 +20,9 @@ export function LoginView(props) {
         const data = response.data;
         props.onLoggedIn(data);
       })
-      .catch((e) => {
-        console.log("no such user");
-      });
+      .catch(function (e) {
+          console.log("no such user");
+        });
   };
 
   return (
@@ -33,7 +33,7 @@ export function LoginView(props) {
           type="text"
           placeholder="Enter Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value)}
         />
       </Form.Group>
       <Form.Group controlId="formBasicPassword">
@@ -42,12 +42,12 @@ export function LoginView(props) {
           type="password"
           placeholder="Enter Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
         />
       </Form.Group>
 
       <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+        <Form.Check type="checkbox" label="Save login" />
       </Form.Group>
 
       <Form.Row>
