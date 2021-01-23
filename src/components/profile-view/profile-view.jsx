@@ -108,7 +108,7 @@ export class ProfileView extends React.Component {
         window.open(`/users/${response.data.Username}`, "_self");
       })
       .catch((e) => {
-        console.log(response);
+        console.log(e);
       });
   }
 
