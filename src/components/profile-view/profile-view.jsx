@@ -228,7 +228,7 @@ export class ProfileView extends React.Component {
                 name="newPassword"
                 onChange={(e) => this.handleChange(e)}
               />
-            </Form.Group> 
+            </Form.Group>
 
             <Form.Group controlId="formBasicBirthday">
               <Form.Label className="form-label">Birthday</Form.Label>
