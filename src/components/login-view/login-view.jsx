@@ -1,70 +1,71 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 import "./login-view.scss";
 
 export function LoginView(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    /* Send a request to the server for authentication */
-    props.onLoggedIn(user);
+    axios.post("https://movie-api-1684.herokuapp.com/login", {
+        Username: username,
+        Password: password,
+      })
+      .then((response) => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(function (e) {
+          console.log("no such user");
+        });
   };
-  
-  const startRegister = (e) => {
-    e.preventDefault();
-    props.startRegister();
-  };
-
 
   return (
     <Form className="login-form">
       <Form.Label>Username</Form.Label>
-
       <Form.Group controlId="formBasicUsername">
         <Form.Control
           type="text"
           placeholder="Enter Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value)}
         />
       </Form.Group>
       <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
-          type="text"
+          type="password"
           placeholder="Enter Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
         />
       </Form.Group>
 
       <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+        <Form.Check type="checkbox" label="Save login" />
       </Form.Group>
 
       <Form.Row>
         <Button
           className="login-button"
           variant="primary"
-          type="submit"
+          type="button"
           onClick={handleSubmit}
         >
           Login
         </Button>
 
-        <Button
-          className="login-button"
-          variant="primary"
-          type="submit"
-          onClick={startRegister}
-        >
-          Register
-        </Button>
+        <Link to="/register">
+          <Button className="register-btn" variant="primary" type="button">
+            New User Register
+          </Button>
+        </Link>
+
       </Form.Row>
     </Form>
   );
