@@ -92,6 +92,10 @@ export class MainView extends React.Component {
         <Link to="/directors">Directors</Link>
         </li>
 
+        <li>
+        <Link to="/users">My Profile</Link>
+        </li>
+
 	   </ul>
       </Navbar>
 

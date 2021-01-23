@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -54,13 +55,14 @@ export class MovieView extends React.Component {
           <span className="value">{movie.Director.Name}</span>
         </div>
 
+{/* 
         <Button variant='success' className='favorite-btn' 
         onClick={() => this.addFavoriteMovie(movie)}>
-        Add to Favorite List</Button>
+        Add to Favorite List</Button> */}
       
         <Link to="/">
           <Button className="register-btn" variant="primary" type="button">
-            Button
+            Back
           </Button>
         </Link>
 
