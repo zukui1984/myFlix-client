@@ -3,41 +3,42 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Card, Form, Container, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-​
+
 import "./profile-view.scss";
-​
+
 export class ProfileView extends React.Component {
   constructor(props) {
     super(props);
-​
-      this.state = {
-        Username: '',
-        Password: null,
-        Email: null,
-        Birthday: null,
-        validated: null,
-        FavoriteMovies: [],
-        newUserName: null,
-        newPassword: null,
-        newBirthday: null,
-        newEmail: null
-      };
-​
-      this.handleUpdate = this.handleUpdate.bind(this);
+    console.log(props);
+
+    this.state = {
+      Username: "",
+      Password: null,
+      Email: null,
+      Birthday: null,
+      validated: null,
+      FavoriteMovies: [],
+      newUserName: null,
+      newPassword: null,
+      newBirthday: null,
+      newEmail: null,
+    };
+
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
-​
+
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
       this.getUser(accessToken);
     }
   }
-​
+
   getUser(token) {
     const username = localStorage.getItem("user");
-​
+
     axios
-      .get(`http://localhost:5000/users/${username}`, {
+      .get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -50,64 +51,48 @@ export class ProfileView extends React.Component {
         });
       })
       .catch(function (error) {
-        console.log(error, '!!error');
+        console.log(error);
       });
   }
-​
-  handleRemoveUser(user) {
-   console.log(user)
-​
+
+  removeFavorite(movie) {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-​
-    if (confirm('Please confirm that you want to delete your profile.')) {
-      axios
-        .delete(`http://localhost:5000/users/${user}`,
-        {
-          headers: {
-            // 'Content-Type' : 'application/json',
-            // 'Accept' : 'application/json',
-            'Authorization': "Bearer " + token
-          },
-        })
-        .then(() => {
-          localStorage.clear();
-          window.open('/', '_self');
-        })
-        .catch(function (error) {
-          console.log(error);
+    if (confirm("Do you really want to delete the user?")) {
+      return axios
+        .delete(
+          `https://movie-api-1684.herokuapp.com/users/${username}/movies/${movie._id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          alert("Account has been deleted");
         });
-      }
+    }
   }
-​
+
   handleUpdate(e) {
-    e.preventDefault()
-    // this.setState({
-    //   validated: null,
-    // });
-​
-    // const form = e.currentTarget;
-    // if (form.checkValidity() === false) {
-    //   e.preventDefault();
-    //   e.stopPropagation();
-    //   this.setState({
-    //     validated: true,
-    //   });
-    //   return;
-    // }
-​
+    e.preventDefault();
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
-    console.log(this.state.newPassword, this.state.Password, '!!state')
+
     axios({
       method: "put",
-      url: `http://localhost:5000/users/${username}`,
+      url: `https://movie-api-1684.herokuapp.com/users/${username}`,
       headers: { Authorization: `Bearer ${token}` },
       data: {
-        Username: this.state.newUsername ? this.state.newUsername : this.state.Username,
-        Password: this.state.newPassword ? this.state.newPassword : this.state.Password ,
+        Username: this.state.newUsername
+          ? this.state.newUsername
+          : this.state.Username,
+        Password: this.state.newPassword
+          ? this.state.newPassword
+          : this.state.Password,
         Email: this.state.newEmail ? this.state.newEmail : this.state.Email,
-        Birthday: this.state.newBirthday ? this.state.newBirthday : this.state.Birthday,
+        Birthday: this.state.newBirthday
+          ? this.state.newBirthday
+          : this.state.Birthday,
       },
     })
       .then((response) => {
@@ -119,62 +104,46 @@ export class ProfileView extends React.Component {
           Birthday: response.data.Birthday,
         });
         localStorage.setItem("user", response.data.Username);
-        this.getUser(localStorage.getItem('token'));
-​
+        this.getUser(localStorage.getItem("token"));
         window.open(`/users/${response.data.Username}`, "_self");
       })
       .catch((e) => {
-        console.log("error");
+        console.log(response);
       });
   }
-​
+
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
   onLogOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.open("/", "_self");
   }
-​
-  removeFavorite(e) {
-    e.preventDefault();
-    const username = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-​
-    axios.delete(
-        "https://movie-api-1684.herokuapp.com/users/${username}/Movies/${movie}",
-        {
-          headers: { Authorization: "Bearer ${token}" },
-        }
-      )
-      .then(() => {
-        alert("Movie successfully removed");
-        this.componentDidMount();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-​
-  handleChange(event) {
-    this.setState( {[event.target.name]: event.target.value} )
-    console.log(event.target.value, '!!aaa')
-  }
-​
+
   render() {
+    const { movies } = this.props;
     const { validated } = this.state;
-    console.log(validated, '!!validated')
+
     let favoritesToRender;
     if (this.state.FavoriteMovies) {
-      const favorites = this.props.movies.filter(movie => this.state.FavoriteMovies.indexOf(movie._id) > -1);
-      console.log(favorites)
-      favoritesToRender = favorites.map(m => {
-        console.log(m, '!!m')
+      const favorites = movies.filter(
+        (movie) => this.state.FavoriteMovies.indexOf(movie._id) > -1
+      );
+      console.log(favorites);
+      favoritesToRender = favorites.map((movie) => {
+        console.log(movie, "!!movies");
         return (
           <div>
-            <Link key={m._id} to={`/movies/${m._id}`}>
-              <div><Button variant="link">{m.Title}</Button></div>
+            <Link key={movie._id} to={`/movies/${movie._id}`}>
+              <div>
+                <Button variant="link">{movie.Title}</Button>
+              </div>
             </Link>
+
             <Link to="/">
-              <Button onClick={() => this.removeFavorite(m._id)}>
+              <Button onClick={() => this.removeFavorite(movie._id)}>
                 Remove Movie
               </Button>
             </Link>
@@ -182,9 +151,9 @@ export class ProfileView extends React.Component {
         );
       });
     }
-​
+
     return (
-       <Container>
+      <Container>
         <Card className="profile-view">
           <Card.Body>
             <Card.Text className="profile-text">
@@ -196,36 +165,35 @@ export class ProfileView extends React.Component {
             <Card.Text className="profile-text">
               Birthday: {this.state.Birthday}
             </Card.Text>
-​
+
+            <Link to="/users/:username"></Link>
+
             <Button
-              onClick={() => this.handleRemoveUser(this.state.Username)}
+              onClick={() => this.handleRemoveUser(movie)}
               variant="closing"
               className="delete-button"
             >
               Delete account
             </Button>
-​
-            <Link to={"/"}>
-              <Button className="delete-button" variant="info">
+
+            <Link to="/">
+              <Button className="back-button" variant="info">
                 Back
               </Button>
             </Link>
           </Card.Body>
         </Card>
-​
+
         <Card className="favorite-movies">
           Favorite Movies
           <Card.Body>
-          {
-            favoritesToRender
-​
-          }
+            {/* <Card.Img variant='top' src={movie.ImagePath} /> */}
+            <div>{favoritesToRender}</div>
           </Card.Body>
         </Card>
-​
+
         <Card.Body className="update-card">
           <Form
-            noValidate
             validated={validated}
             className="update-form"
             onSubmit={this.handleUpdate}
@@ -240,7 +208,7 @@ export class ProfileView extends React.Component {
                 onChange={(e) => this.handleChange(e)}
               />
             </Form.Group>
-​
+
             <Form.Group controlId="formBasicEmail">
               <Form.Label className="form-label">Email</Form.Label>
               <Form.Control
@@ -250,23 +218,18 @@ export class ProfileView extends React.Component {
                 defaultValue={this.state.Email}
                 onChange={(e) => this.handleChange(e)}
               />
-​
             </Form.Group>
-​
+
             <Form.Group controlId="formBasicPassword">
               <Form.Label className="form-label">Password</Form.Label>
               <Form.Control
                 type="password"
-                // placeholder="New Password"
-                required
-                placeholder="Enter old password or a new one"
+                placeholder="Enter your old password or new password"
                 name="newPassword"
-                defaultValue={this.state.Password}
                 onChange={(e) => this.handleChange(e)}
               />
-​
             </Form.Group>
-​
+
             <Form.Group controlId="formBasicBirthday">
               <Form.Label className="form-label">Birthday</Form.Label>
               <Form.Control
@@ -276,20 +239,18 @@ export class ProfileView extends React.Component {
                 defaultValue={this.state.Birthday}
                 onChange={(e) => this.handleChange(e)}
               />
-​
             </Form.Group>
-​
+
             <Button className="update-button" type="submit">
               Update info
             </Button>
-​
           </Form>
         </Card.Body>
       </Container>
     );
   }
 }
-​
+
 ProfileView.propTypes = {
   user: PropTypes.shape({
     Username: PropTypes.string.isRequired,
