@@ -40,7 +40,28 @@ class MainView extends React.Component {
         user: localStorage.getItem('user'),
       });
       this.getMovies(accessToken);
+      this.getUser(accessToken);
     }
+  }
+
+  getUser(token) {
+    const username = localStorage.getItem("user");
+
+    axios.get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.props.setUser(response.data) 
+        //   Username: response.data.Username,
+        //   Password: response.data.Password,
+        //   Email: response.data.Email,
+        //   Birthday: response.data.Birthday,
+        //   FavoriteMovies: response.data.FavoriteMovies,
+        // });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   getMovies(token) {
@@ -59,9 +80,7 @@ class MainView extends React.Component {
 
   // props.onLoggedIn(data) - LoginView
   onLoggedIn(authData) {
-    this.setState({
-      user: authData.user.Username,
-    });
+    this.props.setUser(authData.user.Username);
 
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
@@ -86,17 +105,8 @@ class MainView extends React.Component {
         <div className="main-view">
           <Route exact path="/" render={() => {
              if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-             return <MoviesList movie={movies}/>;
+             return <MoviesList movies={movies}/>;
          }} />
-
-          <Route
-            exact
-            path="/"
-            render={() => {if (!user)
-                return (<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-                );
-              return movies.map((m) => <MovieCard key={movie._id} movie={movie} />);
-            }} />
 
           <Route path="/register" render={() => <RegistrationView />} />
           <Route path="/register" render={() => <LoginView />} />

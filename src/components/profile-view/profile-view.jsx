@@ -58,7 +58,7 @@ export class ProfileView extends React.Component {
   removeFavorite(movie) {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-    if (confirm("Do you really want to delete the user?")) {
+    if (confirm("Do you really want to remove the movie from favorites?")) {
       return axios
         .delete(
           `https://movie-api-1684.herokuapp.com/users/${username}/movies/${movie._id}`,
@@ -68,7 +68,7 @@ export class ProfileView extends React.Component {
         )
         .then((response) => {
           console.log(response);
-          alert("Account has been deleted");
+          alert("Favorite has been removed");
         });
     }
   }

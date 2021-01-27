@@ -54101,14 +54101,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var username = localStorage.getItem("user");
       var token = localStorage.getItem("token");
 
-      if (confirm("Do you really want to delete the user?")) {
+      if (confirm("Do you really want to remove the movie from favorites?")) {
         return _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username, "/movies/").concat(movie._id), {
           headers: {
             Authorization: "Bearer ".concat(token)
           }
         }).then(function (response) {
           console.log(response);
-          alert("Account has been deleted");
+          alert("Favorite has been removed");
         });
       }
     }
@@ -54387,12 +54387,36 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           user: localStorage.getItem('user')
         });
         this.getMovies(accessToken);
+        this.getUser(accessToken);
       }
+    }
+  }, {
+    key: "getUser",
+    value: function getUser(token) {
+      var _this2 = this;
+
+      var username = localStorage.getItem("user");
+
+      _axios.default.get("https://movie-api-1684.herokuapp.com/users/".concat(username), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        _this2.props.setUser(response.data); //   Username: response.data.Username,
+        //   Password: response.data.Password,
+        //   Email: response.data.Email,
+        //   Birthday: response.data.Birthday,
+        //   FavoriteMovies: response.data.FavoriteMovies,
+        // });
+
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }, {
     key: "getMovies",
     value: function getMovies(token) {
-      var _this2 = this;
+      var _this3 = this;
 
       _axios.default.get('https://movie-api-1684.herokuapp.com/movies', {
         headers: {
@@ -54400,7 +54424,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (response) {
         // #1
-        _this2.props.setMovies(response.data);
+        _this3.props.setMovies(response.data);
       }).catch(function (error) {
         console.log(error);
       });
@@ -54409,9 +54433,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
-      this.setState({
-        user: authData.user.Username
-      });
+      this.props.setUser(authData.user.Username);
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
       this.getMovies(authData.token);
@@ -54428,7 +54450,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       // const { movies, user } = this.state;
       var _this$props = this.props,
@@ -54445,27 +54467,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         render: function render() {
           if (!user) return _react.default.createElement(_loginView.LoginView, {
             onLoggedIn: function onLoggedIn(user) {
-              return _this3.onLoggedIn(user);
+              return _this4.onLoggedIn(user);
             }
           });
           return _react.default.createElement(_moviesList.default, {
-            movie: movies
-          });
-        }
-      }), _react.default.createElement(_reactRouterDom.Route, {
-        exact: true,
-        path: "/",
-        render: function render() {
-          if (!user) return _react.default.createElement(_loginView.LoginView, {
-            onLoggedIn: function onLoggedIn(user) {
-              return _this3.onLoggedIn(user);
-            }
-          });
-          return movies.map(function (m) {
-            return _react.default.createElement(_movieCard.MovieCard, {
-              key: movie._id,
-              movie: movie
-            });
+            movies: movies
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -54519,7 +54525,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         render: function render() {
           if (!user) return _react.default.createElement(_loginView.LoginView, {
             onLoggedIn: function onLoggedIn(user) {
-              return _this3.onLoggedIn(user);
+              return _this4.onLoggedIn(user);
             }
           });
           if (movies.length === 0) return;
@@ -54740,7 +54746,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36390" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49619" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
