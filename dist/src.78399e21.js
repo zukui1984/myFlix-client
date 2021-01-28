@@ -54113,6 +54113,27 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "handleRemoveUser",
+    value: function handleRemoveUser() {
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
+
+      if (confirm('Please confirm that you want to delete your profile.')) {
+        _axios.default.delete("https://movie-api-1684.herokuapp.com/users/".concat(username), {
+          headers: {
+            // 'Content-Type' : 'application/json',
+            // 'Accept' : 'application/json',
+            'Authorization': "Bearer " + token
+          }
+        }).then(function () {
+          localStorage.clear();
+          window.open('/', '_self');
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    }
+  }, {
     key: "handleUpdate",
     value: function handleUpdate(e) {
       var _this3 = this;
@@ -54746,7 +54767,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49619" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3367" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -37,8 +37,7 @@ export class ProfileView extends React.Component {
   getUser(token) {
     const username = localStorage.getItem("user");
 
-    axios
-      .get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+    axios.get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -73,7 +72,31 @@ export class ProfileView extends React.Component {
     }
   }
 
-  handleUpdate(e) {
+  handleRemoveUser() {
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    
+    if (confirm('Please confirm that you want to delete your profile.')) {
+      axios
+        .delete(`https://movie-api-1684.herokuapp.com/users/${username}`,
+        {
+          headers: {
+            // 'Content-Type' : 'application/json',
+            // 'Accept' : 'application/json',
+            'Authorization': "Bearer " + token
+          },
+        })
+        .then(() => {
+          localStorage.clear();
+          window.open('/', '_self');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+  }
+
+   handleUpdate(e) {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
