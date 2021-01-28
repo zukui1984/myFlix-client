@@ -37,8 +37,7 @@ export class ProfileView extends React.Component {
   getUser(token) {
     const username = localStorage.getItem("user");
 
-    axios
-      .get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
+    axios.get(`https://movie-api-1684.herokuapp.com/users/${username}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -58,7 +57,7 @@ export class ProfileView extends React.Component {
   removeFavorite(movie) {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-    if (confirm("Do you really want to delete the user?")) {
+    if (confirm("Do you really want to remove the movie from favorites?")) {
       return axios
         .delete(
           `https://movie-api-1684.herokuapp.com/users/${username}/movies/${movie._id}`,
@@ -68,12 +67,36 @@ export class ProfileView extends React.Component {
         )
         .then((response) => {
           console.log(response);
-          alert("Account has been deleted");
+          alert("Favorite has been removed");
         });
     }
   }
 
-  handleUpdate(e) {
+  handleRemoveUser() {
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    
+    if (confirm('Please confirm that you want to delete your profile.')) {
+      axios
+        .delete(`https://movie-api-1684.herokuapp.com/users/${username}`,
+        {
+          headers: {
+            // 'Content-Type' : 'application/json',
+            // 'Accept' : 'application/json',
+            'Authorization': "Bearer " + token
+          },
+        })
+        .then(() => {
+          localStorage.clear();
+          window.open('/', '_self');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+  }
+
+   handleUpdate(e) {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("user");
